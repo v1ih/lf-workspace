@@ -99,7 +99,7 @@ export function BarsChart({
             width={48}
             allowDecimals={false}
             // Keep the goal line visible even when the bars are still small
-            domain={[0, (dataMax: number) => Math.max(dataMax, target ?? 0)]}
+            domain={[0, (dataMax: number) => Math.max(dataMax, target ?? 0, 1)]}
           />
           <ChartTooltip format={format} names={[name]} />
           <Bar dataKey="value" radius={[6, 6, 0, 0]} maxBarSize={36}>

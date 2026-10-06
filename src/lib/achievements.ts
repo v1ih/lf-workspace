@@ -25,8 +25,8 @@ export type AchievementDefinition = {
 
 export const ACHIEVEMENTS: AchievementDefinition[] = [
   { key: "first_workday", emoji: "☀️", title: "First workday", description: "Closed your first full workday", check: (s) => s.workdaysCompleted >= 1 },
-  { key: "first_ticket", emoji: "✅", title: "First ticket shipped", description: "Moved a ticket to Done", check: (s) => s.ticketsDone >= 1 },
-  { key: "ten_tickets", emoji: "🚀", title: "10 tickets shipped", description: "Completed 10 tickets", check: (s) => s.ticketsDone >= 10 },
+  { key: "first_ticket", emoji: "✅", title: "First ticket shipped", description: "Shipped a development ticket", check: (s) => s.ticketsDone >= 1 },
+  { key: "ten_tickets", emoji: "🚀", title: "10 tickets shipped", description: "Completed 10 development tickets", check: (s) => s.ticketsDone >= 10 },
   { key: "ten_commits", emoji: "💻", title: "10 GitHub commits", description: "10 commits this week on GitHub", check: (s) => s.commits >= 10 },
   { key: "ten_hours", emoji: "⏱️", title: "10 focused hours", description: "Tracked 10 hours of real work", check: (s) => s.trackedHours >= 10 },
   { key: "first_evidence", emoji: "🧠", title: "Proof of skill", description: "Registered your first skill evidence", check: (s) => s.evidences >= 1 },

@@ -44,6 +44,7 @@ export default async function WorkPage({ searchParams }: PageProps<"/work">) {
     status: t.status,
     priority: t.priority,
     type: t.type,
+    category: t.category,
     position: t.position,
     estimate: t.estimate,
     prUrl: t.prUrl,

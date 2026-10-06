@@ -59,3 +59,13 @@ describe("skills", () => {
     expect(skillBar(0)).toBe("░░░░░░░░░░");
   });
 });
+
+describe("task categories", () => {
+  it("derives a default category from the ticket type", async () => {
+    const { categoryForType } = await import("@/lib/labels");
+    expect(categoryForType("BACKEND")).toBe("DEVELOPMENT");
+    expect(categoryForType("TESTING")).toBe("DEVELOPMENT");
+    expect(categoryForType("BUSINESS")).toBe("BUSINESS");
+    expect(categoryForType("CAREER")).toBe("CAREER");
+  });
+});

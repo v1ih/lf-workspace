@@ -3,7 +3,7 @@ import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/dal";
 import { monthRange, weekRange } from "@/lib/dates";
 import { monthlyIncome, weeklyHours } from "@/lib/series";
-import { TASK_TYPES } from "@/lib/labels";
+import { TASK_CATEGORIES, TASK_TYPES } from "@/lib/labels";
 import { entrySeconds, formatDuration, formatMoney } from "@/lib/utils";
 import { PageHeader } from "@/components/page-header";
 import { Card, CardHeader } from "@/components/ui/card";
@@ -26,7 +26,7 @@ export default async function ReportsPage() {
       where: { userId, startedAt: { gte: month.start, lt: month.end } },
       include: { project: true, task: { select: { type: true } } },
     }),
-    db.task.findMany({ where: { userId, completedAt: { gte: eightWeeksAgo } }, select: { completedAt: true } }),
+    db.task.findMany({ where: { userId, completedAt: { gte: eightWeeksAgo } }, select: { completedAt: true, category: true } }),
     db.client.findMany({
       where: { userId },
       include: {
@@ -49,14 +49,21 @@ export default async function ReportsPage() {
   const toData = (map: Map<string, number>) =>
     [...map.entries()].sort((a, b) => b[1] - a[1]).map(([label, value]) => ({ label, value: Math.round(value * 10) / 10 }));
 
-  // Tickets completed per week
+  // Development activity counts only technical tickets (not onboarding, business or career work)
+  const devTasks = doneTasks.filter((t) => t.category === "DEVELOPMENT");
   const tickets = Array.from({ length: 8 }, (_, i) => {
     const range = weekRange(now, undefined, 7 - i);
     return {
       label: i === 7 ? "This week" : `W${i + 1}`,
-      value: doneTasks.filter((t) => t.completedAt! >= range.start && t.completedAt! < range.end).length,
+      value: devTasks.filter((t) => t.completedAt! >= range.start && t.completedAt! < range.end).length,
     };
   });
+
+  const monthDone = doneTasks.filter((t) => t.completedAt! >= month.start && t.completedAt! < month.end);
+  const byCategory = TASK_CATEGORIES.map((c) => ({
+    label: c.label,
+    value: monthDone.filter((t) => t.category === c.value).length,
+  }));
 
   const rates = clients
     .map((c) => {
@@ -76,7 +83,7 @@ export default async function ReportsPage() {
           <BarsChart data={hours} format="hours" name="Worked" />
         </Card>
         <Card>
-          <CardHeader title="Development activity" subtitle="Tickets completed per week" />
+          <CardHeader title="Development activity" subtitle="Development tickets completed per week" />
           <BarsChart data={tickets} name="Tickets" />
         </Card>
         <Card>
@@ -86,6 +93,10 @@ export default async function ReportsPage() {
         <Card>
           <CardHeader title="Revenue — Employment" subtitle="Received per month (USD)" />
           <TrendChart data={employment} format="usd" names={["Received", "Goal"]} />
+        </Card>
+        <Card>
+          <CardHeader title="Tickets by category" subtitle="Completed this month — only Development counts as productivity" />
+          <FunnelChart data={byCategory} />
         </Card>
         <Card>
           <CardHeader title="Where the hours went" subtitle="By project, this month" />

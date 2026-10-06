@@ -6,6 +6,7 @@ import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient, type TaskPriority, type TaskStatus, type TaskType } from "../src/generated/prisma/client";
 import { METRICS } from "../src/lib/goals";
 import { DEFAULT_SKILLS } from "../src/lib/skills";
+import { categoryForType } from "../src/lib/labels";
 import { monthKey } from "../src/lib/dates";
 
 const db = new PrismaClient({ adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }) });
@@ -169,6 +170,8 @@ async function main() {
           title: t.title,
           description: t.description,
           type: t.type,
+          // Onboarding work is administrative, not development productivity
+          category: status === "DONE" ? "ADMINISTRATIVE" : categoryForType(t.type),
           priority: t.priority ?? "MEDIUM",
           projectId: projects[t.project as keyof typeof projects].id,
           sprintId,

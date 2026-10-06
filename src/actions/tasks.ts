@@ -3,7 +3,7 @@
 import { z } from "zod";
 import { db } from "@/lib/db";
 import { logActivity, syncAchievements } from "@/lib/metrics";
-import { labelOf, TASK_STATUSES } from "@/lib/labels";
+import { categoryForType, labelOf, TASK_STATUSES } from "@/lib/labels";
 import { taskCode } from "@/lib/utils";
 import { fail, formObject, success, zodFail, type ActionState } from "@/lib/action-state";
 import { refreshAll, requireUserId } from "./_shared";
@@ -16,6 +16,8 @@ const TaskSchema = z.object({
   status: z.enum(STATUS).default("TODO"),
   priority: z.enum(["LOW", "MEDIUM", "HIGH", "URGENT"]).default("MEDIUM"),
   type: z.enum(["FRONTEND", "BACKEND", "FULL_STACK", "TESTING", "DEVOPS", "DOCS", "BUSINESS", "CAREER"]).default("FULL_STACK"),
+  // Empty = derived from the type (see categoryForType)
+  category: z.enum(["DEVELOPMENT", "BUSINESS", "CAREER", "ADMINISTRATIVE"]).optional(),
   projectId: z.string().optional(),
   sprintId: z.string().optional(),
   estimate: z.coerce.number().min(0).max(200).optional(),
@@ -43,6 +45,7 @@ export async function createTask(_: ActionState, formData: FormData): Promise<Ac
     return tx.task.create({
       data: {
         ...data,
+        category: data.category ?? categoryForType(data.type),
         userId,
         dueDate: data.dueDate ? new Date(data.dueDate) : undefined,
         number: (last?.number ?? 0) + 1,
@@ -71,6 +74,7 @@ export async function updateTask(_: ActionState, formData: FormData): Promise<Ac
     where: { id },
     data: {
       ...data,
+      category: data.category ?? categoryForType(data.type),
       description: data.description ?? null,
       projectId: data.projectId ?? null,
       sprintId: data.sprintId ?? null,

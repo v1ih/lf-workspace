@@ -1,5 +1,5 @@
 import { Field, FormGrid, Input, Select, Textarea } from "./ui/form";
-import { TASK_PRIORITIES, TASK_STATUSES, TASK_TYPES } from "@/lib/labels";
+import { TASK_CATEGORIES, TASK_PRIORITIES, TASK_STATUSES, TASK_TYPES } from "@/lib/labels";
 
 export type Option = { id: string; name: string };
 
@@ -9,6 +9,7 @@ export type TaskFormValues = {
   status?: string;
   priority?: string;
   type?: string;
+  category?: string;
   projectId?: string | null;
   sprintId?: string | null;
   estimate?: number | null;
@@ -60,6 +61,16 @@ export function TaskFields({
             {Object.entries(TASK_TYPES).map(([value, label]) => (
               <option key={value} value={value}>
                 {label}
+              </option>
+            ))}
+          </Select>
+        </Field>
+        <Field label="Category" hint="Only Development counts as development productivity">
+          <Select name="category" defaultValue={values.category ?? ""}>
+            <option value="">Automatic (from type)</option>
+            {TASK_CATEGORIES.map((c) => (
+              <option key={c.value} value={c.value}>
+                {c.label}
               </option>
             ))}
           </Select>

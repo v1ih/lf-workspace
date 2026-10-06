@@ -145,6 +145,15 @@ enum TaskType {
   CAREER
 }
 
+// What kind of work a ticket is. Only DEVELOPMENT counts as development
+// productivity (reports, monthly ticket goal, ticket achievements).
+enum TaskCategory {
+  DEVELOPMENT
+  BUSINESS
+  CAREER
+  ADMINISTRATIVE
+}
+
 model Task {
   id          String       @id @default(cuid())
   userId      String
@@ -155,6 +164,7 @@ model Task {
   status      TaskStatus   @default(TODO)
   priority    TaskPriority @default(MEDIUM)
   type        TaskType     @default(FULL_STACK)
+  category    TaskCategory @default(DEVELOPMENT)
   position    Int          @default(0)
   estimate    Float?
   prUrl       String?
@@ -172,6 +182,7 @@ model Task {
 
   @@unique([userId, number])
   @@index([userId, status])
+  @@index([userId, category, completedAt])
 }
 
 model TimeEntry {

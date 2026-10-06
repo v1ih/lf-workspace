@@ -29,7 +29,7 @@ export const METRICS: MetricDefinition[] = [
   { key: "technical_interviews", area: "CAREER", label: "Technical interviews", unit: "count", defaultTarget: 2 },
   { key: "international_offer", area: "CAREER", label: "International offer", unit: "count", defaultTarget: 1 },
   { key: "dev_hours", area: "DEVELOPMENT", label: "Focused development", unit: "hours", defaultTarget: 60 },
-  { key: "tickets_done", area: "DEVELOPMENT", label: "Tickets completed", unit: "count", defaultTarget: 20 },
+  { key: "tickets_done", area: "DEVELOPMENT", label: "Dev tickets completed", unit: "count", defaultTarget: 20 },
   { key: "projects_shipped", area: "DEVELOPMENT", label: "Projects shipped", unit: "count", defaultTarget: 1 },
   { key: "new_leads", area: "BUSINESS", label: "New leads", unit: "count", defaultTarget: 15 },
   { key: "proposals", area: "BUSINESS", label: "Proposals", unit: "count", defaultTarget: 5 },

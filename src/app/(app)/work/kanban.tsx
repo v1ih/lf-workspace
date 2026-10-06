@@ -4,7 +4,7 @@ import { useActionState, useEffect, useOptimistic, useRef, useState, useTransiti
 import { Clock, ExternalLink, GitPullRequest, Play, Trash2, X } from "lucide-react";
 import { deleteTask, moveTask, submitForReview, updateTask } from "@/actions/tasks";
 import { startTimer } from "@/actions/time";
-import { TASK_PRIORITIES, TASK_STATUSES, TASK_TYPES } from "@/lib/labels";
+import { TASK_CATEGORIES, TASK_PRIORITIES, TASK_STATUSES, TASK_TYPES } from "@/lib/labels";
 import { cn, formatDuration, taskCode } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -20,6 +20,7 @@ export type BoardTask = {
   status: string;
   priority: string;
   type: string;
+  category: string;
   position: number;
   estimate: number | null;
   prUrl: string | null;
@@ -171,6 +172,11 @@ function TaskCard({
       </p>
       <div className="mt-2.5 flex flex-wrap items-center gap-1">
         <Badge>{TASK_TYPES[task.type]}</Badge>
+        {task.category !== "DEVELOPMENT" && (
+          <Badge tone={TASK_CATEGORIES.find((c) => c.value === task.category)?.tone}>
+            {TASK_CATEGORIES.find((c) => c.value === task.category)?.label}
+          </Badge>
+        )}
         {(task.priority === "HIGH" || task.priority === "URGENT") && <Badge tone={priority.tone}>{priority.label}</Badge>}
       </div>
       <div className="mt-2.5 flex items-center justify-between">

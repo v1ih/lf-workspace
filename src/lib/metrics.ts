@@ -32,7 +32,8 @@ export async function computeMonthMetrics(userId: string, period = monthKey()): 
     db.jobApplication.count({ where: { userId, technicalAt: inMonth } }),
     db.jobApplication.count({ where: { userId, offerAt: inMonth } }),
     db.timeEntry.findMany({ where: { userId, startedAt: inMonth }, select: { startedAt: true, endedAt: true } }),
-    db.task.count({ where: { userId, completedAt: inMonth } }),
+    // Only technical work counts as development productivity
+    db.task.count({ where: { userId, category: "DEVELOPMENT", completedAt: inMonth } }),
     db.project.count({ where: { userId, shippedAt: inMonth } }),
     db.lead.count({ where: { userId, createdAt: inMonth } }),
     db.lead.count({ where: { userId, proposalAt: inMonth } }),
@@ -94,7 +95,7 @@ async function achievementStats(userId: string, commits: number): Promise<Achiev
     db.jobApplication.count({ where: { userId, appliedAt: { not: null } } }),
     db.jobApplication.count({ where: { userId, technicalAt: { not: null } } }),
     db.jobApplication.count({ where: { userId, offerAt: { not: null } } }),
-    db.task.count({ where: { userId, status: "DONE" } }),
+    db.task.count({ where: { userId, category: "DEVELOPMENT", status: "DONE" } }),
     db.transaction.aggregate({ where: { userId, status: "RECEIVED", currency: "USD" }, _sum: { amount: true } }),
     db.client.count({ where: { userId, NOT: { country: "Brazil" } } }),
     db.transaction.findMany({

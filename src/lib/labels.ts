@@ -73,3 +73,19 @@ export const SPRINT_STATUSES: Record<string, { label: string; tone: Tone }> = {
 export function labelOf(list: readonly { value: string; label: string }[], value: string) {
   return list.find((item) => item.value === value)?.label ?? value;
 }
+
+export const TASK_CATEGORIES = [
+  { value: "DEVELOPMENT", label: "Development", tone: "blue" },
+  { value: "BUSINESS", label: "Business", tone: "accent" },
+  { value: "CAREER", label: "Career", tone: "green" },
+  { value: "ADMINISTRATIVE", label: "Administrative", tone: "neutral" },
+] as const satisfies readonly { value: string; label: string; tone: Tone }[];
+
+export type TaskCategoryValue = (typeof TASK_CATEGORIES)[number]["value"];
+
+/** Default category for a ticket type — can be changed per ticket. */
+export function categoryForType(type: string): TaskCategoryValue {
+  if (type === "BUSINESS") return "BUSINESS";
+  if (type === "CAREER") return "CAREER";
+  return "DEVELOPMENT";
+}
