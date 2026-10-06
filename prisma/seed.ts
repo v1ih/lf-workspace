@@ -70,14 +70,15 @@ const SPRINT_01: SeedTask[] = [
 
 async function main() {
   const email = (process.env.SEED_EMAIL ?? "lavinia@lfworkspace.dev").toLowerCase();
-  const password = process.env.SEED_PASSWORD;
-  if (!password) throw new Error("Set SEED_PASSWORD in .env before seeding");
-
+  // Checked first so later deploys (which also run the seed) don't need the password
   const existing = await db.user.findUnique({ where: { email } });
   if (existing) {
     console.log(`User ${email} already exists — nothing to do.`);
     return;
   }
+
+  const password = process.env.SEED_PASSWORD;
+  if (!password) throw new Error("Set SEED_PASSWORD in .env before seeding");
 
   const user = await db.user.create({
     data: {
