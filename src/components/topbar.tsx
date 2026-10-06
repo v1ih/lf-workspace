@@ -29,7 +29,7 @@ export async function Topbar({ user }: { user: CurrentUser }) {
     .join("");
 
   return (
-    <div className="flex flex-wrap items-center justify-end gap-2 border-b border-line bg-canvas/80 px-4 py-3 backdrop-blur sm:px-8">
+    <div className="flex items-center justify-end gap-2 border-b border-line bg-canvas/80 px-4 py-3 backdrop-blur sm:px-8">
       <RunningTimer running={timer} />
 
       {!workday || workday.endedAt ? (
@@ -44,8 +44,8 @@ export async function Topbar({ user }: { user: CurrentUser }) {
         </Link>
       )}
 
-      <div className="ml-1 flex items-center gap-2 border-l border-line pl-3">
-        <span className="grid size-8 place-items-center rounded-full bg-accent-soft text-xs font-semibold text-accent-strong">
+      <div className="flex items-center gap-2 sm:ml-1 sm:border-l sm:border-line sm:pl-3">
+        <span className="hidden size-8 place-items-center rounded-full sm:grid bg-accent-soft text-xs font-semibold text-accent-strong">
           {initials}
         </span>
         <div className="hidden leading-tight sm:block">

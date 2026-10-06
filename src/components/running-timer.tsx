@@ -24,7 +24,7 @@ export function RunningTimer({ running }: Props) {
   if (!running) {
     return (
       <Button variant="secondary" size="sm" disabled={pending} onClick={() => startTransition(() => startTimer(null))}>
-        <Play className="size-3.5" /> Start timer
+        <Play className="size-3.5" /> <span className="hidden sm:inline">Start timer</span>
       </Button>
     );
   }

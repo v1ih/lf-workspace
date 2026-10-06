@@ -153,8 +153,8 @@ export default async function DashboardPage() {
         </Card>
       </div>
 
-      <div className="mt-4 grid gap-4 lg:grid-cols-3">
-        <Card className="lg:col-span-2">
+      <div className="mt-4 grid gap-4 xl:grid-cols-3">
+        <Card className="xl:col-span-2">
           <CardHeader
             title={`Goals — ${new Intl.DateTimeFormat("en-US", { month: "long" }).format(now)}`}
             subtitle="Targets vs. what actually happened"
@@ -164,7 +164,7 @@ export default async function DashboardPage() {
               </Link>
             }
           />
-          <div className="grid gap-6 sm:grid-cols-3">
+          <div className="grid gap-6 md:grid-cols-3">
             {AREAS.filter((a) => a.key !== "FINANCE").map((area) => (
               <div key={area.key}>
                 <Eyebrow>{area.label}</Eyebrow>
@@ -175,7 +175,7 @@ export default async function DashboardPage() {
                       <li key={g.key}>
                         <div className="flex items-baseline justify-between gap-2 text-sm">
                           <span className="text-ink-soft">{g.label}</span>
-                          <span className="font-mono text-xs">
+                          <span className="whitespace-nowrap font-mono text-xs">
                             {formatMetric(g.actual, g.unit)} / {formatMetric(g.target, g.unit)}
                           </span>
                         </div>

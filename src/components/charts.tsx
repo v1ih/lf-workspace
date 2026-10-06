@@ -36,6 +36,15 @@ function formatValue(value: number, format: Format) {
   }
 }
 
+const compact = new Intl.NumberFormat("en-US", { notation: "compact", maximumFractionDigits: 1 });
+
+/** Short labels for the Y axis: "R$4K", "US$1.5K", "12h" */
+function formatAxis(value: number, format: Format) {
+  if (format === "brl") return `R$${compact.format(value)}`;
+  if (format === "usd") return `US$${compact.format(value)}`;
+  return formatValue(value, format);
+}
+
 const axisProps = {
   stroke: MUTED,
   fontSize: 11,
@@ -84,7 +93,14 @@ export function BarsChart({
         <BarChart data={data} margin={{ top: 8, right: 4, left: -16, bottom: 0 }}>
           <CartesianGrid vertical={false} stroke={LINE} />
           <XAxis dataKey="label" {...axisProps} />
-          <YAxis {...axisProps} tickFormatter={(v) => formatValue(v, format)} width={format === "count" ? 40 : 64} />
+          <YAxis
+            {...axisProps}
+            tickFormatter={(v) => formatAxis(v, format)}
+            width={48}
+            allowDecimals={false}
+            // Keep the goal line visible even when the bars are still small
+            domain={[0, (dataMax: number) => Math.max(dataMax, target ?? 0)]}
+          />
           <ChartTooltip format={format} names={[name]} />
           <Bar dataKey="value" radius={[6, 6, 0, 0]} maxBarSize={36}>
             {data.map((_, i) => (
@@ -136,7 +152,7 @@ export function TrendChart({
         <LineChart data={data} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
           <CartesianGrid vertical={false} stroke={LINE} />
           <XAxis dataKey="label" {...axisProps} />
-          <YAxis {...axisProps} tickFormatter={(v) => formatValue(v, format)} width={64} />
+          <YAxis {...axisProps} tickFormatter={(v) => formatAxis(v, format)} width={52} />
           <ChartTooltip format={format} names={names} />
           <Line type="monotone" dataKey="value" stroke={ACCENT} strokeWidth={2.5} dot={{ r: 3, fill: ACCENT }} />
           <Line type="monotone" dataKey="secondary" stroke={MUTED} strokeDasharray="4 4" dot={false} />

@@ -15,7 +15,7 @@ export async function weeklyHours(userId: string, weeks = 8, now = new Date()) {
     const seconds = entries
       .filter((e) => e.startedAt >= range.start && e.startedAt < range.end)
       .reduce((sum, e) => sum + entrySeconds(e, now), 0);
-    return { label: i === weeks - 1 ? "This week" : `Week ${i + 1}`, value: Math.round((seconds / 3600) * 10) / 10 };
+    return { label: i === weeks - 1 ? "Now" : `W${i + 1}`, value: Math.round((seconds / 3600) * 10) / 10 };
   });
 }
 
