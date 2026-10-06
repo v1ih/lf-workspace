@@ -38,6 +38,9 @@ export const METRICS: MetricDefinition[] = [
   { key: "business_revenue_brl", area: "FINANCE", label: "Lavínia Ferraz | Soluções Digitais", unit: "brl", defaultTarget: 4000 },
 ];
 
+/** Weekly rhythm shown on the dashboard cards. */
+export const WEEKLY_TARGETS = { hours: 30, applications: 10, leads: 5 };
+
 export const AREAS: { key: GoalArea; label: string }[] = [
   { key: "CAREER", label: "Career" },
   { key: "DEVELOPMENT", label: "Development" },

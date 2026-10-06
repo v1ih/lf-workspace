@@ -92,6 +92,11 @@ export function monthDateRange(period: string) {
   return { start: new Date(Date.UTC(y, m - 1, 1)), end: new Date(Date.UTC(y, m, 1)) };
 }
 
+/** Converts an instant range into the matching range for DATE columns. */
+export function toDateRange(range: { start: Date; end: Date }) {
+  return { start: dateOnly(localDateKey(range.start)), end: dateOnly(localDateKey(range.end)) };
+}
+
 export function greeting(now = new Date(), timeZone = APP_TIMEZONE) {
   const hour = Number(
     new Intl.DateTimeFormat("en-US", { timeZone, hour: "numeric", hourCycle: "h23" }).format(now),
@@ -121,4 +126,19 @@ export function formatTime(date: Date, timeZone = APP_TIMEZONE) {
 /** For <input type="date"> default values. */
 export function toInputDate(date: Date | null | undefined) {
   return date ? date.toISOString().slice(0, 10) : "";
+}
+
+/** "YYYY-MM-DDTHH:mm" typed in the app timezone → real instant. */
+export function fromLocalDateTime(value: string, timeZone = APP_TIMEZONE) {
+  const [date, time = "00:00"] = value.split("T");
+  const [y, m, d] = date.split("-").map(Number);
+  const [h, min] = time.split(":").map(Number);
+  return new Date(startOfLocalDay(y, m, d, timeZone).getTime() + (h * 60 + min) * 60000);
+}
+
+/** Instant → value for <input type="datetime-local"> in the app timezone. */
+export function toInputDateTime(date: Date | null | undefined, timeZone = APP_TIMEZONE) {
+  if (!date) return "";
+  const offset = timezoneOffsetMinutes(date, timeZone);
+  return new Date(date.getTime() + offset * 60000).toISOString().slice(0, 16);
 }
