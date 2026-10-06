@@ -2,6 +2,16 @@
 
 All notable changes to this project are documented here. Format based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.2.0] — 2026-10-06
+
+### Added
+- Ticket category (Development / Business / Career / Administrative). Only Development tickets count toward development productivity: Reports, the monthly ticket goal and ticket achievements.
+- "Tickets by category" chart in Reports.
+- Collapsible sidebar (remembered in a cookie) with Dashboard and Today always pinned at the top and Settings at the bottom.
+
+### Changed
+- Sprint 00 (onboarding) tickets are classified as Administrative.
+
 ## [0.1.0] — 2026-10-06 · Onboarding Day
 
 ### Added
