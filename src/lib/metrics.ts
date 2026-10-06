@@ -36,7 +36,7 @@ export async function computeMonthMetrics(userId: string, period = monthKey()): 
     db.project.count({ where: { userId, shippedAt: inMonth } }),
     db.lead.count({ where: { userId, createdAt: inMonth } }),
     db.lead.count({ where: { userId, proposalAt: inMonth } }),
-    db.client.count({ where: { userId, createdAt: inMonth } }),
+    db.lead.count({ where: { userId, wonAt: inMonth } }),
     db.transaction.aggregate({
       where: { userId, stream: "EMPLOYMENT", status: "RECEIVED", currency: "USD", date: { gte: dates.start, lt: dates.end } },
       _sum: { amount: true },

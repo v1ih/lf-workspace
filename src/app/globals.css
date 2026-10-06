@@ -1,26 +1,53 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* LF Workspace design tokens — off-white, warm ink, terracotta accent */
+@theme {
+  --color-canvas: #faf8f5;
+  --color-surface: #ffffff;
+  --color-sunken: #f3efea;
+  --color-line: #ebe4dc;
+  --color-ink: #1e1a17;
+  --color-ink-soft: #4a423c;
+  --color-muted: #8a7f77;
+  --color-accent: #c0613d;
+  --color-accent-strong: #a24f2f;
+  --color-accent-soft: #f7e8e1;
+  --color-sidebar: #1e1a17;
+  --color-sidebar-ink: #d9d0c8;
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  --radius-card: 1rem;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  color-scheme: light;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+::selection {
+  background: var(--color-accent-soft);
+}
+
+dialog::backdrop {
+  background: rgb(30 26 23 / 0.35);
+  backdrop-filter: blur(2px);
+}
+
+/* Native <dialog> doesn't animate by default */
+dialog[open] {
+  animation: dialog-in 160ms ease-out;
+}
+
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.98);
+  }
 }
