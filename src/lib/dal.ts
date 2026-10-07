@@ -12,9 +12,9 @@ export const getCurrentUser = cache(async () => {
 
   const user = await db.user.findUnique({
     where: { id: session.userId },
-    select: { id: true, name: true, email: true, title: true, companyName: true, githubUsername: true },
+    select: { id: true, name: true, email: true, title: true, companyName: true, githubUsername: true, isDemo: true },
   });
-  if (!user) redirect("/login");
+  if (!user) redirect("/auth/reset");
 
   return user;
 });

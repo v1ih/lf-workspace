@@ -4,6 +4,10 @@
 
 LF Workspace is a full-stack web app where every number is real: tickets, tracked hours, leads, revenue and job applications all come from records, never from typed-in totals. *The aesthetics represent the life you want; the indicators represent what you actually did.*
 
+## Try it
+
+Open **https://lf-workspace.vercel.app** and click **Try the demo**. You get your own private workspace with fictional data — drag tickets, start the timer, move leads in the CRM. It is deleted after 24 hours and never touches real data.
+
 ## Features
 
 | Area | What it does |

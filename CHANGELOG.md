@@ -2,6 +2,16 @@
 
 All notable changes to this project are documented here. Format based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [0.3.0] — 2026-10-06
+
+### Added
+- **Try the demo**: one click on the login page creates a private, throwaway workspace with fictional clients, sprints, tickets, hours, CRM, finance and applications. Demo accounts are isolated like any other user and deleted after 24 hours (max. 60 per hour).
+- Demo banner with *Exit demo*; password changes are disabled for demo accounts.
+
+### Fixed
+- A valid session for a deleted user no longer causes a redirect loop (`/auth/reset` clears the cookie).
+- Category badge is no longer repeated when it matches the ticket type.
+
 ## [0.2.0] — 2026-10-06
 
 ### Added

@@ -103,6 +103,7 @@ export async function changePassword(_: ActionState, formData: FormData): Promis
   if (!parsed.success) return zodFail(parsed.error);
 
   const user = await db.user.findUniqueOrThrow({ where: { id: userId } });
+  if (user.isDemo) return fail("Password changes are disabled in the demo");
   if (!(await bcrypt.compare(parsed.data.current, user.passwordHash))) return fail("Current password is wrong");
 
   await db.user.update({ where: { id: userId }, data: { passwordHash: await bcrypt.hash(parsed.data.next, 12) } });

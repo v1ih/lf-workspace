@@ -172,7 +172,7 @@ function TaskCard({
       </p>
       <div className="mt-2.5 flex flex-wrap items-center gap-1">
         <Badge>{TASK_TYPES[task.type]}</Badge>
-        {task.category !== "DEVELOPMENT" && (
+        {task.category !== "DEVELOPMENT" && task.category !== task.type && (
           <Badge tone={TASK_CATEGORIES.find((c) => c.value === task.category)?.tone}>
             {TASK_CATEGORIES.find((c) => c.value === task.category)?.label}
           </Badge>

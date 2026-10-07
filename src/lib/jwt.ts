@@ -17,7 +17,8 @@ export async function encrypt(payload: SessionPayload) {
   return new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
-    .setExpirationTime(`${MAX_AGE_DAYS}d`)
+    // The token expires together with the cookie
+    .setExpirationTime(new Date(payload.expiresAt))
     .sign(getKey());
 }
 

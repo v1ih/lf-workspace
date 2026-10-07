@@ -2,8 +2,9 @@ import "server-only";
 import { cookies } from "next/headers";
 import { encrypt, decrypt, MAX_AGE_DAYS, SESSION_COOKIE as COOKIE } from "./jwt";
 
-export async function createSession(userId: string) {
-  const expires = new Date(Date.now() + MAX_AGE_DAYS * 24 * 60 * 60 * 1000);
+export async function createSession(userId: string, opts: { hours?: number } = {}) {
+  const hours = opts.hours ?? MAX_AGE_DAYS * 24;
+  const expires = new Date(Date.now() + hours * 60 * 60 * 1000);
   const token = await encrypt({ userId, expiresAt: expires.toISOString() });
   const store = await cookies();
   store.set(COOKIE, token, {

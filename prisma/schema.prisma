@@ -22,6 +22,8 @@ model User {
   title          String   @default("Full Stack Developer · Founder")
   companyName    String   @default("Lavínia Ferraz | Soluções Digitais")
   githubUsername String?
+  // Throwaway "Try demo" accounts with fictional data, deleted after 24h
+  isDemo         Boolean  @default(false)
   createdAt      DateTime @default(now())
 
   clients      Client[]
@@ -37,6 +39,8 @@ model User {
   goals        Goal[]
   activities   ActivityLog[]
   achievements Achievement[]
+
+  @@index([isDemo, createdAt])
 }
 
 // ─────────────────────────────────────────────
