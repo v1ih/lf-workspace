@@ -5,8 +5,10 @@ import { decrypt, SESSION_COOKIE } from "@/lib/jwt";
 export async function proxy(request: NextRequest) {
   const session = await decrypt(request.cookies.get(SESSION_COOKIE)?.value);
   const isLogin = request.nextUrl.pathname === "/login";
+  // Public commercial page; business dashboard and user data remain protected.
+  const isPublicServices = request.nextUrl.pathname === "/services";
 
-  if (!session && !isLogin) {
+  if (!session && !isLogin && !isPublicServices) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
   if (session && isLogin) {
